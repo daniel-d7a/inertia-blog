@@ -4,8 +4,7 @@ export function createUrlWithParams(baseUrl: string, params: Record<string, stri
     // get base url
 
     // get all params
-    const allEmpty = true;
-    params = Object.fromEntries(Object.entries(params).filter(([_, val]) => !!val));
+    params = Object.fromEntries(Object.entries(params).filter(([, val]) => !!val));
 
     // if all params are empty return base url
     if (!Object.keys(params).length) return baseUrl;

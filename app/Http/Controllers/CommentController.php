@@ -22,7 +22,7 @@ class CommentController extends Controller
             'user_id' => Auth::id()
         ])->all()));
 
-        return redirect("posts/{$post->id}");
+        return redirect("blogs/{$post->id}");
     }
 
 

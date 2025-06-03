@@ -20,7 +20,7 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-        return Inertia::render("Posts/Index", [
+        return Inertia::render("Blog/Index", [
             'responseData' => [
                 'posts' => PostService::getLatestPaginted($request->query()),
             ]
@@ -32,7 +32,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return Inertia::render("Posts/SinglePost", [
+        return Inertia::render("Blog/SinglePost", [
             'responseData' => [
                 'post' => PostService::getWithVotes($post),
                 'comments' => CommentService::getPostComments($post->id),
@@ -45,7 +45,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        return Inertia::render("Posts/Create", [
+        return Inertia::render("Blog/Create", [
             'responseData' => [
                 'tags' => Tag::all(),
             ]
@@ -79,7 +79,7 @@ class PostController extends Controller
 
         $newPost->tags()->attach($newTagsFromDb);
 
-        return to_route('posts.index');
+        return to_route('blog.index');
     }
 
     /**
@@ -87,7 +87,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return Inertia::render("Posts/Update", [
+        return Inertia::render("Blog/Update", [
             'responseData' => [
                 'post' => $post,
             ]
@@ -101,7 +101,7 @@ class PostController extends Controller
     {
         $post->update($request->validated());
 
-        return redirect("posts/{$post->id}");
+        return redirect("blog/{$post->id}");
     }
 
     /**
@@ -111,7 +111,7 @@ class PostController extends Controller
     {
         $post->delete();
 
-        return to_route('posts.index');
+        return to_route('blog.index');
     }
 
 }
