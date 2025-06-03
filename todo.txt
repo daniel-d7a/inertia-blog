@@ -106,7 +106,7 @@
     - similar to reddit or stack overflow
     - people ask questions and get answers in the comments
     - best answers get to the top
-- add a news letter with the best articles of the week
+- add a newsletter with the best articles of the week
 - add an automated weekly article with the best topics of the week
 - add images (inside posts, photo\gif comments, article cover photo ...etc.)
 - add AI features 
@@ -131,6 +131,11 @@
 - learn from dev.to project and take notes.
 - add locallization
 - allow importing markdown files (in a specific format).
+- add images to users
+- add images to posts
+- make a typesafe router
+- extract a tag component
+- add toast component
 
 ## questions
 

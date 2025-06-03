@@ -4,11 +4,9 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\VoteController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
-
-
-Route::inertia('/', "Home")->name('home');
+Route::inertia('/', 'Home')->name('home');
+Route::inertia('/about', 'Welcome');
 Route::inertia('dashboard', "Dashboard")->middleware(['auth', 'verified'])->name('dashboard');
 
 

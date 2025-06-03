@@ -5,12 +5,14 @@
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
     --font-sans: Instrument Sans, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
-    --radius-lg: var(--radius) --radius-md: calc(var(--radius) - 2px);
+    --radius-lg: var(--radius);
+    --radius-md: calc(var(--radius) - 2px);
     --radius-sm: calc(var(--radius) - 4px);
 
     --color-background: var(--background);
@@ -120,6 +122,7 @@
     --sidebar-border: hsl(0 0% 91%);
     --sidebar-ring: hsl(217.2 91.2% 59.8%);
     --sidebar: hsl(0 0% 98%);
+
     --app-blue: hsl(185, 98%, 24%);
 }
 
@@ -180,4 +183,53 @@
     body {
         @apply bg-background text-foreground;
     }
+}
+
+.exo-2-thin {
+    font-family: 'Exo 2', sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 100;
+    font-style: normal;
+}
+.exo-2-extra-light {
+    font-family: 'Exo 2', sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 200;
+    font-style: normal;
+}
+.exo-2-light {
+    font-family: 'Exo 2', sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+}
+.exo-2-normal {
+    font-family: 'Exo 2', sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+.exo-2-medium {
+    font-family: 'Exo 2', sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+}
+.exo-2-semi {
+    font-family: 'Exo 2', sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+}
+.exo-2-bold {
+    font-family: 'Exo 2', sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+}
+.exo-2-extra {
+    font-family: 'Exo 2', sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
 }

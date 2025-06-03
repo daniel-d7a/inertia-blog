@@ -36,7 +36,7 @@ class AuthenticatedSessionController extends Controller
         // todo: check this
         // return redirect()->intended(route('posts.index', absolute: false));
 
-        return to_route('blogs.index');
+        return to_route('blog.index');
     }
 
     /**

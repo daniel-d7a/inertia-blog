@@ -1,6 +1,4 @@
-
 export function createUrlWithParams(baseUrl: string, params: Record<string, string>) {
-
     // get base url
 
     // get all params
@@ -10,12 +8,15 @@ export function createUrlWithParams(baseUrl: string, params: Record<string, stri
     if (!Object.keys(params).length) return baseUrl;
 
     // else add all params into a params object and add them to url
-    const searchParams = new URLSearchParams()
+    const searchParams = new URLSearchParams();
     Object.entries(params).forEach(([key, val]) => {
         searchParams.append(key, val);
-    })
+    });
 
     // return full url
-    return `${baseUrl}?${searchParams.toString()}`
+    return `${baseUrl}?${searchParams.toString()}`;
+}
 
+export function tagUrl(tagName: string, params: Record<string, string>) {
+    return createUrlWithParams('/blog', { q: params.q, tag: tagName });
 }

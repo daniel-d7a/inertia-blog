@@ -1,12 +1,15 @@
 import '../css/app.css';
 
 import { createInertiaApp } from '@inertiajs/vue3';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import type { DefineComponent } from 'vue';
 import { createApp, h } from 'vue';
 import { ZiggyVue } from 'ziggy-js';
 import { initializeTheme } from './composables/useAppearance';
 
+// extend dayjs with relativeTime plugin
 // Extend ImportMeta interface for Vite...
 declare module 'vite/client' {
     interface ImportMetaEnv {
@@ -21,6 +24,8 @@ declare module 'vite/client' {
 }
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+
+dayjs.extend(relativeTime);
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
