@@ -1,0 +1,77 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: dockerfile
+    ports:
+      - '${APP_PORT}:8000'
+    volumes:
+      - .:/var/www/html
+    env_file:
+      - .env
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - VITE_APP_URL=${VITE_APP_URL}
+      - APP_URL=${APP_URL}
+    depends_on:
+      - mysql
+      - vite
+    networks:
+      - app-network
+    restart: unless-stopped # Auto-start when container starts
+
+  vite:
+    build:
+      context: .
+      dockerfile: dockerfile.vite
+    env_file:
+      - .env
+    ports:
+      - '${VITE_APP_PORT}:5173' # Vite
+    volumes:
+      - .:/var/www/html
+      - /var/www/html/node_modules
+    environment:
+      - APP_URL=${APP_URL}
+    networks:
+      - app-network
+
+  mysql:
+    image: mysql:8.0
+    ports:
+      - '${DB_PORT}:3306'
+    env_file:
+      - .env
+    environment:
+      - MYSQL_DATABASE=${DB_DATABASE}
+      # - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ALLOW_EMPTY_PASSWORD=1
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    depends_on:
+      - mysql
+    ports:
+      - '8080:80'
+    environment:
+      - PMA_HOST=mysql
+    networks:
+      - app-network
+    restart: unless-stopped
+
+volumes:
+  mysql-data:
+
+networks:
+  app-network:
