@@ -1,0 +1,161 @@
+## Architecture
+
+[ ] split pages down into smaller components.
+[ ] standerize type for (props, declarations, ...etc).
+[ ] split routes into separate files based on resource or path.
+[ ] define a default layout
+
+## Database
+
+[x] implement basic models (post, user, tag, comment)
+[x] implement seeders
+[x] make tables for post votes.
+[ ] make tables for comment votes.
+
+## UI
+
+[ ] add themes.
+
+## Posts
+
+[x] create basic controller
+[x] pagination
+[x] show all posts
+[x] show single post with comments
+[ ] make featured posts
+[ ] create more functions in the service 
+    [x] search
+    [x] get by tag
+    [ ] featured posts
+[x] make post policy for authorization
+[x] create post (authorize logged in users)
+[x] update post (authorize post owner)
+[x] delete post (authorize post owner)
+[x] vote post (authorize logged in users)
+[ ] authorize admin for all actions
+[x] allow adding (predefined) tags to posts (authorize logged in users)
+[x] allow creating new tags (authorize logged in users)
+[x] search post by title or body
+[x] search post by tag
+[ ] use slugs for posts instead of numeric IDs
+
+## Post votes
+
+[x] make migration and database table.
+[x] configure the seeder and factory with correct relations to post votes.
+[x] make controller with vote method. (authorize logged in users)
+[x] add optimistic updates to voting.
+
+## Comments
+
+[x] show comments under posts
+[ ] add comments policy
+[x] create comments (authorize logged in users)
+[ ] update comments (authorize comment owner)
+[ ] delete comments (authorize comment owner)
+[ ] vote comments (authorize logged in user)
+[ ] create a nested comment section that allows for threads.
+[ ] authorize admin for delete comments
+
+## Comment votes
+
+[ ] make migration and database table.
+[ ] configure the seeder and factory with correct relations to comment votes.
+[ ] make controller with vote method. (authorize logged in users)
+[ ] add optimistic updates to voting.
+
+## Authintication
+
+[ ] add basic auth
+[x] add login
+[x] add signup
+[ ] add logout
+[ ] add forget password
+[ ] add account verification
+
+## Extensions
+
+[ ] get todo tree (or not)
+[x] get formatter (prettier)
+[ ] get cycle quotes extension. 
+
+## Router
+
+[ ] add a welcome page
+[ ] add lazy data evaluation and partial reloads
+
+## refactoring
+
+[ ] refactor the seeder
+[ ] remove all unnecessary files and folders
+[ ] understand the (already setup) auth system
+
+## ideas
+
+- add threads of posts (a topic that has multiple posts related to it)
+- add rich text input
+- add user profile.
+    - user preferences
+    - user posts
+    - user votes
+    - user comments
+    - user subscriptions
+- add a notification system on (votes, comments) on your posts
+- add a follow mechanism where you can follow users, threads, and tags
+- add a forum (????)
+    - similar to reddit or stack overflow
+    - people ask questions and get answers in the comments
+    - best answers get to the top
+- add a newsletter with the best articles of the week
+- add an automated weekly article with the best topics of the week
+- add images (inside posts, photo\gif comments, article cover photo ...etc.)
+- add AI features 
+    - summerization.
+    - auto generate title
+    - auto select tags.
+- turn on SSR (prefetching and preloading as well).
+- add SSG (if possible, where possible).
+    - try to generate static pages periodically
+- add a recommender system (AI) to show articles based on user interactions and subscriptions
+- try to monitize it 
+    - subscriptions.
+    - paid articles.
+    - premium accounts.
+    - boosted posts.
+    - paid awards for posts.
+- think of a way to compensate writers based on thier performance.
+- add view transitions ✨
+- add ssr feed.
+- add og, twitter, facebook, and other SEO tags
+- add analytics.
+- learn from dev.to project and take notes.
+- add locallization
+- allow importing markdown files (in a specific format).
+- add images to users
+- add images to posts
+- make a typesafe router
+- extract a tag component
+- add toast component
+
+## questions
+
+- how to create a model that is related to 2 other models (postVote, comment, ...etc)
+- how to create models related to the current auth user without setting the user id manually
+- using forward and backward buttons uses a cached version of the pages, while url routing gets a fresh copy
+- how to map the items before pagination and still be able to apply pagination
+- how to create models in bulk using eloquent
+- how to redirect to the route I was on before e.g. logging in?
+- how to make one table for votes have refernce to a comment or a post and get the correct mapping and relationships setup using eloquent?
+    - id
+    - user_id
+    - ref_id (post_id, comment_id, ...etc.)
+    - type (post, comment, ...etc.)
+    - vote_type (up, down)
+    - the combination of (user_id, ref_id, type) must be unique.
+- how to use generics in php ???????????????
+
+
+
+I am going to make this blog the biggest and the greatest arabic blog around.
+People are going to come here to find what they are looking for.
+I will make it on par with what we use in english (dev.to, daily.dev, medium, ...etc.)

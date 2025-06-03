@@ -1,0 +1,3 @@
+cd /D p:\projects\inertia-blog-project && npm run dev
+
+cd /D p:\projects\inertia-blog-project && php artisan serve
