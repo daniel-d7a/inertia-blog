@@ -23,7 +23,7 @@ function deletePostConfirmation() {
     return confirm('are you sure?');
 }
 
-const voteHref = `/blog/${post.id}/vote`;
+const voteHref = `/blog/${post.slug}/vote`;
 </script>
 
 <template>
@@ -37,8 +37,8 @@ const voteHref = `/blog/${post.id}/vote`;
             </div>
             <p class="mt-4">{{ post.body }}</p>
             <div v-if="authUser.id === post.user.id" class="flex items-baseline gap-3">
-                <Link :href="`/blog/${post.id}/edit`">Update</Link>
-                <Link :href="`/blog/${post.id}`" method="delete" as="button" @before="deletePostConfirmation" class="cursor-pointer"> Delete</Link>
+                <Link :href="`/blog/${post.slug}/edit`">Update</Link>
+                <Link :href="`/blog/${post.slug}`" method="delete" as="button" @before="deletePostConfirmation" class="cursor-pointer"> Delete</Link>
             </div>
             <br />
             <CommentInput :postId="post.id" />

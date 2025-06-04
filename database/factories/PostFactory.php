@@ -22,6 +22,7 @@ class PostFactory extends Factory
             'body' => fake()->paragraph(30),
             'votes_count' => fake()->numberBetween(-10, 10),
             'user_id' => User::factory(),
+            'slug' => fake()->unique()->slug(),
         ];
     }
 }

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 
 class Post extends Model
     // implements Votable
@@ -62,6 +63,28 @@ class Post extends Model
     public function withCurrentUserVote()
     {
         return PostService::getLatest()->where('id', '=', $this->id)->first();
+    }
+
+
+    private static function createSlug(Post $post)
+    {
+        $slug = Str::slug($post->title);
+        $count = Post::where('slug', 'LIKE', "{$slug}%")->count();
+        $post->slug = $count ? "{$slug}-{$count}" : $slug;
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($post) {
+            static::createSlug($post);
+        });
+
+        static::updating(function ($post) {
+            static::createSlug($post);
+        });
+
     }
 
     // /**

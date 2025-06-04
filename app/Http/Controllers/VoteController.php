@@ -23,6 +23,6 @@ class VoteController extends Controller
 
         VoteService::VoteComment($comment, $request->input("vote_type"));
 
-        return redirect("blog/{$post->id}");
+        return redirect("blog/{$post->slug}");
     }
 }

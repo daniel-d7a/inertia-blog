@@ -22,7 +22,7 @@ const form = useForm({
     body: post.body,
 });
 
-const postUrl = `/blog/${post.id}`;
+const postUrl = `/blog/${post.slug}`;
 
 const submit = () => {
     form.patch(postUrl, {

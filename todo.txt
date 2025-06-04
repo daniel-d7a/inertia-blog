@@ -37,7 +37,7 @@
 [x] allow creating new tags (authorize logged in users)
 [x] search post by title or body
 [x] search post by tag
-[ ] use slugs for posts instead of numeric IDs
+[x] use slugs for posts instead of numeric IDs
 
 ## Post votes
 
@@ -90,7 +90,7 @@
 [ ] remove all unnecessary files and folders
 [ ] understand the (already setup) auth system
 
-## ideas
+## random tasks and ideas
 
 - add threads of posts (a topic that has multiple posts related to it)
 - add rich text input
@@ -136,6 +136,7 @@
 - make a typesafe router
 - extract a tag component
 - add toast component
+- add type generation from php to typescript
 
 ## questions
 

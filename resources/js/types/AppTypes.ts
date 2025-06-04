@@ -67,6 +67,7 @@ export interface Post extends Entity, WithTimestamps {
     user: User
     tags: Tag[]
     votes: [PostVote?]
+    slug: string;
 }
 
 export interface Comment extends Entity, WithTimestamps {

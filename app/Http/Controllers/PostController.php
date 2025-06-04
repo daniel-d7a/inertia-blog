@@ -20,9 +20,12 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
+
+        $data = PostService::getLatestPaginted($request->query());
+
         return Inertia::render("Blog/Index", [
             'responseData' => [
-                'posts' => PostService::getLatestPaginted($request->query()),
+                'posts' => $data,
             ]
         ]);
     }
@@ -101,7 +104,7 @@ class PostController extends Controller
     {
         $post->update($request->validated());
 
-        return redirect("blog/{$post->id}");
+        return redirect("blog/{$post->slug}");
     }
 
     /**
