@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { Comment } from '@/types/AppTypes';
 import CommentEntry from '@/features/blog/components/CommentEntry.vue';
+import { Comment } from '@/types/AppTypes';
 
-const { comments } = defineProps<{
+interface Props {
     comments: Comment[];
-}>();
+}
+
+const { comments } = defineProps<Props>();
 </script>
 
 <template>

@@ -8,7 +8,11 @@ import dayjs from 'dayjs';
 import { Calendar } from 'lucide-vue-next';
 import Votes from './Votes.vue';
 
-const { post } = defineProps<{ post: Post }>();
+interface Props {
+    post: Post;
+}
+
+const { post } = defineProps<Props>();
 
 const previewBody = getPreviewText(post.body, 200);
 

@@ -10,12 +10,16 @@ interface ResponseData {
     tags: Tag[];
 }
 
+interface Props {
+    selectedTags: (Tag | string)[];
+}
+
 const emit = defineEmits<{
     (e: 'selectTag', tag: Tag | string): void;
     (e: 'removeTag', tag: Tag | string): void;
 }>();
 
-const { selectedTags } = defineProps<{ selectedTags: (Tag | string)[] }>();
+const { selectedTags } = defineProps<Props>();
 
 const tags = useTypedPage<ResponseData>().props.responseData.tags;
 

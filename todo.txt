@@ -95,7 +95,6 @@
 
 [ ] make a typesafe router
 [ ] extract a tag component
-[ ] add toast component
 [ ] add type generation from php to typescript
 
 
@@ -141,6 +140,7 @@
 - allow importing markdown files (in a specific format).
 - add images to users
 - add images to posts
+- add a toast for actions
 
 
 ## questions

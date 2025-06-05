@@ -2,7 +2,13 @@
 import { Link } from '@inertiajs/vue3';
 import { HTMLAttributes } from 'vue';
 
-const props = withDefaults(defineProps<{ enabled: boolean; href: string; class?: HTMLAttributes['class'] }>(), {
+interface Props {
+    enabled: boolean;
+    href: string;
+    class?: HTMLAttributes['class'];
+}
+
+const props = withDefaults(defineProps<Props>(), {
     enabled: true,
     class: '',
 });

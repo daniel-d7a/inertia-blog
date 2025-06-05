@@ -4,9 +4,11 @@ import { Tag } from '@/types/AppTypes';
 import { Link } from '@inertiajs/vue3';
 import { useUrlSearchParams } from '@vueuse/core';
 
-const { tag } = defineProps<{
+interface Props {
     tag: Tag;
-}>();
+}
+
+const { tag } = defineProps<Props>();
 
 const params = useUrlSearchParams<{ q: string; tag: string }>();
 const href = route('blog.index', {
