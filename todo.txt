@@ -63,6 +63,7 @@
 [ ] configure the seeder and factory with correct relations to comment votes.
 [ ] make controller with vote method. (authorize logged in users)
 [ ] add optimistic updates to voting.
+[ ] make comments their own request so that I can refresh them without refreshing the whole page
 
 ## Authintication
 

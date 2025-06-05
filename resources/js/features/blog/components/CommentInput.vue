@@ -1,24 +1,28 @@
 <script setup lang="ts">
 import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
+import { route } from '@/helpers/route';
 import { router, useForm } from '@inertiajs/vue3';
 import { LoaderCircle } from 'lucide-vue-next';
 
 interface Props {
-    postId: number;
+    postSlug: string;
 }
 
-const { postId } = defineProps<Props>();
+const { postSlug } = defineProps<Props>();
 
 const form = useForm({
     body: '',
 });
 
 function submit() {
-    form.post(`/blog/${postId}/comments`, {
+    form.post(route('blog.comments.store', { post: postSlug }), {
         onSuccess: () => {
             form.reset();
-            router.get(`/blog/${postId}`, {});
+            router.get(route('blog.show', { post: postSlug }), {
+                preserveState: true,
+                preserveScroll: true,
+            });
         },
     });
 }

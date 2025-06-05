@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import TagsDropDown from '@/features/blog/components/TagsDropDown.vue';
+import { route } from '@/helpers/route';
 import AppLayout from '@/layouts/app/AppLayout.vue';
 import { Tag } from '@/types/AppTypes';
 import { Head, useForm } from '@inertiajs/vue3';
@@ -43,7 +44,7 @@ const submit = () => {
     form.transform((data) => ({
         ...data,
         ...tagsData,
-    })).post('/blog');
+    })).post(route('blog.store'));
 };
 </script>
 

@@ -4,9 +4,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useTypedPage } from '@/composables/useTypedPage';
+import { route } from '@/helpers/route';
 import AppLayout from '@/layouts/app/AppLayout.vue';
 import { Post } from '@/types/AppTypes';
-import { Head, router, useForm } from '@inertiajs/vue3';
+import { Head, useForm } from '@inertiajs/vue3';
 import { LoaderCircle } from 'lucide-vue-next';
 
 defineOptions({ layout: AppLayout });
@@ -22,13 +23,7 @@ const form = useForm({
     body: post.body,
 });
 
-const postUrl = `/blog/${post.slug}`;
-
-const submit = () => {
-    form.patch(postUrl, {
-        onFinish: () => router.get(postUrl, {}, { replace: true, fresh: true }),
-    });
-};
+const submit = () => form.patch(route('blog.update', { post: post.slug }));
 </script>
 
 <template>

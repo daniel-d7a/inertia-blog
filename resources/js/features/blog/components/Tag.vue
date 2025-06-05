@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { tagUrl } from '@/helpers/url';
+import { route } from '@/helpers/route';
 import { Tag } from '@/types/AppTypes';
 import { Link } from '@inertiajs/vue3';
 import { useUrlSearchParams } from '@vueuse/core';
@@ -9,7 +9,12 @@ const { tag } = defineProps<{
 }>();
 
 const params = useUrlSearchParams<{ q: string; tag: string }>();
-const href = tagUrl(tag.name, params);
+const href = route('blog.index', {
+    _query: {
+        q: params.q,
+        tag: tag.name,
+    },
+});
 </script>
 
 <template>

@@ -4,6 +4,7 @@ import CommentInput from '@/features/blog/components/CommentInput.vue';
 import PostComments from '@/features/blog/components/PostComments.vue';
 import Tag from '@/features/blog/components/Tag.vue';
 import Votes from '@/features/blog/components/Votes.vue';
+import { route } from '@/helpers/route';
 import AppLayout from '@/layouts/app/AppLayout.vue';
 import { SharedData } from '@/types';
 import { Comment, Post } from '@/types/AppTypes';
@@ -16,14 +17,14 @@ type Props = { post: Post; comments: Comment[] };
 
 const { post, comments } = useTypedPage<Props>().props.responseData;
 const authUser = computed(() => usePage<SharedData>().props.auth.user).value;
-console.log({ authUser, post });
 
 // TODO:change this to a modal
 function deletePostConfirmation() {
     return confirm('are you sure?');
 }
-
-const voteHref = `/blog/${post.slug}/vote`;
+const voteHref = route('blog.vote', { post: post.slug });
+const editHref = route('blog.edit', { post: post.slug });
+const deleteHref = route('blog.destroy', { post: post.slug });
 </script>
 
 <template>
@@ -37,11 +38,11 @@ const voteHref = `/blog/${post.slug}/vote`;
             </div>
             <p class="mt-4">{{ post.body }}</p>
             <div v-if="authUser.id === post.user.id" class="flex items-baseline gap-3">
-                <Link :href="`/blog/${post.slug}/edit`">Update</Link>
-                <Link :href="`/blog/${post.slug}`" method="delete" as="button" @before="deletePostConfirmation" class="cursor-pointer"> Delete</Link>
+                <Link :href="editHref">Update</Link>
+                <Link :href="deleteHref" method="delete" as="button" @before="deletePostConfirmation" class="cursor-pointer"> Delete</Link>
             </div>
             <br />
-            <CommentInput :postId="post.id" />
+            <CommentInput :postSlug="post.slug" />
             <br />
             <br />
             <PostComments :comments="comments" />

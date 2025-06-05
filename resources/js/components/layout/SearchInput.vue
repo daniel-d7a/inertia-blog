@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { createUrlWithParams } from '@/helpers/url';
+import { route } from '@/helpers/route';
 import { router, usePage } from '@inertiajs/vue3';
 import { useDebounceFn, useUrlSearchParams } from '@vueuse/core';
 import { ref, useTemplateRef } from 'vue';
@@ -12,12 +12,16 @@ const q = ref(searchParams.q);
 const inputRef = useTemplateRef<HTMLInputElement>('inputRef');
 const cancelToken = ref<{ cancel: VoidFunction }>();
 
+// TODO: make a search page
+
 const debouncedSearch = useDebounceFn(() => {
     cancelToken.value?.cancel();
 
-    const url = createUrlWithParams(baseUrl, {
-        q: q.value,
-        tag: searchParams.tag,
+    const url = route('blog.index', {
+        _query: {
+            q: q.value,
+            tag: searchParams.tag,
+        },
     });
 
     router.get(
@@ -38,7 +42,6 @@ function onInput(e: Event) {
 }
 
 function clearSearch() {
-
     if (inputRef.value) {
         inputRef.value.value = '';
     }
@@ -46,16 +49,16 @@ function clearSearch() {
     router.get(baseUrl, {}, { fresh: true });
 }
 
-function clearTag() {
-    const url = createUrlWithParams(baseUrl, { q: q.value });
-    router.get(
-        url,
-        {},
-        {
-            fresh: true,
-        },
-    );
-}
+// function clearTag() {
+//     const url = createUrlWithParams(baseUrl, { q: q.value });
+//     router.get(
+//         url,
+//         {},
+//         {
+//             fresh: true,
+//         },
+//     );
+// }
 </script>
 
 <template>

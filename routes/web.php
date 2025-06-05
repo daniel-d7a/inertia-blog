@@ -6,7 +6,7 @@ use App\Http\Controllers\VoteController;
 use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'Home')->name('home');
-Route::inertia('/about', 'About');
+Route::inertia('/about', 'About')->name('about');
 Route::inertia('dashboard', "Dashboard")->middleware(['auth', 'verified'])->name('dashboard');
 
 

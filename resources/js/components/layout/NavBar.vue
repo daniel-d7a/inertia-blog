@@ -1,16 +1,17 @@
 <script lang="ts" setup>
 import SearchInput from '@/components/layout/SearchInput.vue';
 import { getInitials } from '@/composables/useInitials';
+import { route } from '@/helpers/route';
 import { NavItem, SharedData } from '@/types';
 import { usePage } from '@inertiajs/vue3';
 import { Bell, Bookmark } from 'lucide-vue-next';
 import { computed } from 'vue';
 
 const links: NavItem[] = [
-    { title: 'Home', href: '/' },
-    { title: 'Blog', href: '/blog' },
-    { title: 'Create', href: '/blog/create' },
-    { title: 'About', href: '/about' },
+    { title: 'Home', href: route('home') },
+    { title: 'Blog', href: route('blog.index') },
+    { title: 'Create', href: route('blog.create') },
+    { title: 'About', href: route('about') },
 ];
 
 const page = usePage<SharedData>();

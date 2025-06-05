@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Tag from '@/features/blog/components/Tag.vue';
+import { route } from '@/helpers/route';
 import { getPreviewText } from '@/helpers/text';
 import { Post } from '@/types/AppTypes';
 import { Link } from '@inertiajs/vue3';
@@ -11,13 +12,14 @@ const { post } = defineProps<{ post: Post }>();
 
 const previewBody = getPreviewText(post.body, 200);
 
-const voteHref = `/blog/${post.slug}/vote`;
+const voteHref = route('blog.vote', { post: post.slug });
+const postHref = route('blog.show', { post: post.slug });
 </script>
 
 <template>
     <div class="group my-8 flex items-start gap-4">
         <Votes :vote-href="voteHref" :current-vote="post.votes[0]?.vote_type" :votes="post.votes_count" />
-        <Link :prefetch="true" :href="`/blog/${post.slug}`">
+        <Link :prefetch="true" :href="postHref">
             <div>
                 <h2 class="text-app-blue mb-2 text-xl font-bold group-hover:underline">{{ post.title }}</h2>
                 <div class="my-2 flex items-center gap-4 text-xs">
