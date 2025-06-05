@@ -92,6 +92,13 @@
 
 ## random tasks and ideas
 
+[ ] make a typesafe router
+[ ] extract a tag component
+[ ] add toast component
+[ ] add type generation from php to typescript
+
+
+
 - add threads of posts (a topic that has multiple posts related to it)
 - add rich text input
 - add user profile.
@@ -133,10 +140,7 @@
 - allow importing markdown files (in a specific format).
 - add images to users
 - add images to posts
-- make a typesafe router
-- extract a tag component
-- add toast component
-- add type generation from php to typescript
+
 
 ## questions
 

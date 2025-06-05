@@ -1,5 +1,6 @@
 import '../css/app.css';
 
+import { route as $route } from '@/helpers/route';
 import { createInertiaApp } from '@inertiajs/vue3';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -9,8 +10,9 @@ import { createApp, h } from 'vue';
 import { ZiggyVue } from 'ziggy-js';
 import { initializeTheme } from './composables/useAppearance';
 
-// extend dayjs with relativeTime plugin
 // Extend ImportMeta interface for Vite...
+
+// @ts-expect-error "Vite client" module is not found
 declare module 'vite/client' {
     interface ImportMetaEnv {
         readonly VITE_APP_NAME: string;
@@ -31,10 +33,13 @@ createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) => resolvePageComponent(`./pages/${name}.vue`, import.meta.glob<DefineComponent>('./pages/**/*.vue')),
     setup({ el, App, props, plugin }) {
-        createApp({ render: () => h(App, props) })
+        const vueApp = createApp({ render: () => h(App, props) })
             .use(plugin)
-            .use(ZiggyVue)
-            .mount(el);
+            .use(ZiggyVue);
+
+        vueApp.config.globalProperties.$route = $route;
+
+        vueApp.mount(el);
     },
     progress: {
         color: '#4B5563',

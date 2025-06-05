@@ -15,21 +15,21 @@ Route::get("/blog", [PostController::class, "index"])->name('blog.index');
 Route::middleware('auth')->group(function () {
 
     // views
-    Route::get("/blog/create", [PostController::class, "create"]);
-    Route::get("/blog/{post:slug}/edit", [PostController::class, "edit"])->can('update', 'post');
-    Route::get("/blog/{post:slug}", [PostController::class, "show"]);
+    Route::get("/blog/create", [PostController::class, "create"])->name('blog.create');
+    Route::get("/blog/{post:slug}/edit", [PostController::class, "edit"])->name('blog.edit')->can('update', 'post');
+    Route::get("/blog/{post:slug}", [PostController::class, "show"])->name('blog.show');
 
     // post actions
-    Route::post("/blog", [PostController::class, "store"]);
-    Route::delete("/blog/{post:slug}", [PostController::class, "destroy"])->can('delete', 'post');
-    Route::patch("/blog/{post:slug}", [PostController::class, "update"])->can('update', 'post');
+    Route::post("/blog", [PostController::class, "store"])->name('blog.store');
+    Route::delete("/blog/{post:slug}", [PostController::class, "destroy"])->can('delete', 'post')->name('blog.destroy');
+    Route::patch("/blog/{post:slug}", [PostController::class, "update"])->can('update', 'post')->name('blog.update');
 
     // comment actions
-    Route::post("/blog/{post:slug}/comments", [CommentController::class, "store"]);
+    Route::post("/blog/{post:slug}/comments", [CommentController::class, "store"])->name('blog.comments.store');
 
     // vote actions
-    Route::post('/blog/{post:slug}/vote', [VoteController::class, 'votePost']);
-    Route::post('/blog/{post:slug}/comments/{comment}/vote', [VoteController::class, 'voteComment']);
+    Route::post('/blog/{post:slug}/vote', [VoteController::class, 'votePost'])->name('blog.vote');
+    Route::post('/blog/{post:slug}/comments/{comment}/vote', [VoteController::class, 'voteComment'])->name('blog.comments.vote');
 });
 
 
