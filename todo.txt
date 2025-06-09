@@ -1,7 +1,7 @@
 ## Architecture
 
 [ ] split pages down into smaller components.
-[ ] standerize type for (props, declarations, ...etc).
+[x] standerize type for (props, declarations, ...etc).
 [ ] split routes into separate files based on resource or path.
 [ ] define a default layout
 
@@ -76,14 +76,15 @@
 
 ## Extensions
 
-[ ] get todo tree (or not)
+[x] get todo tree (or not)
 [x] get formatter (prettier)
-[ ] get cycle quotes extension. 
+[x] get cycle quotes extension. 
 
 ## Router
 
 [ ] add a welcome page
 [ ] add lazy data evaluation and partial reloads
+[x] make a typesafe router
 
 ## refactoring
 
@@ -93,8 +94,7 @@
 
 ## random tasks and ideas
 
-[ ] make a typesafe router
-[ ] extract a tag component
+[x] extract a tag component
 [ ] add type generation from php to typescript
 
 
