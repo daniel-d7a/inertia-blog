@@ -25,11 +25,12 @@ Route::middleware('auth')->group(function () {
     Route::patch("/blog/{post:slug}", [PostController::class, "update"])->can('update', 'post')->name('blog.update');
 
     // comment actions
-    Route::post("/blog/{post:slug}/comments", [CommentController::class, "store"])->name('blog.comments.store');
+    Route::post("/blog/{post:slug}/comments", [CommentController::class, "store"])->name('comment.store');
+    Route::delete('/blog/comments/{comment}', [CommentController::class, 'destroy'])->can("delete", "comment")->name("comment.delete");
 
     // vote actions
     Route::post('/blog/{post:slug}/vote', [VoteController::class, 'votePost'])->name('blog.vote');
-    Route::post('/blog/{post:slug}/comments/{comment}/vote', [VoteController::class, 'voteComment'])->name('blog.comments.vote');
+    Route::post('/blog/{post:slug}/comments/{comment}/vote', [VoteController::class, 'voteComment'])->name('comment.vote');
 });
 
 

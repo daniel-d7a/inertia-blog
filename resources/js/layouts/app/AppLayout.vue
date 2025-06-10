@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import Banner from '@/components/layout/Banner.vue';
+import Footer from '@/components/layout/Footer.vue';
 import NavBar from '@/components/layout/NavBar.vue';
 </script>
 
@@ -10,6 +11,7 @@ import NavBar from '@/components/layout/NavBar.vue';
         <main class="m-8">
             <slot />
         </main>
+        <Footer />
     </div>
 </template>
 

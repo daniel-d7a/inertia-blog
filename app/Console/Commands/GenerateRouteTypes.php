@@ -22,11 +22,11 @@ class GenerateRouteTypes extends Command
 
     foreach ($routes as $name => $route) {
       $params = empty($route['parameters'])
-        ? '{params: {_query?: Record<string, string | number>}}'
+        ? '{ _no_params: true }'
         : sprintf(
-          '{params: { %s, _query?: Record<string, string | number> } }',
+          '{params: { %s }}',
           collect($route['parameters'])
-            ->map(fn($param) => "{$param}?: string | number")
+            ->map(fn($param) => "$param : string | number")
             ->join(', ')
         );
 

@@ -16,11 +16,12 @@ const form = useForm({
 });
 
 function submit() {
-    form.post(route('blog.comments.store', { post: postSlug }), {
+    form.post(route('comment.store', { post: postSlug }), {
+        preserveScroll: true,
         onSuccess: () => {
             form.reset();
-            router.get(route('blog.show', { post: postSlug }), {
-                preserveState: true,
+            router.replace({
+                url: route('blog.show', { post: postSlug }),
                 preserveScroll: true,
             });
         },

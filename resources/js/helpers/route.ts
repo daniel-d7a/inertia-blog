@@ -1,23 +1,28 @@
 import type { RouteList } from '@custom-types/ziggy-js';
 import { Router, route as ziggyRoute } from 'ziggy-js';
 
-type RouteWithParams<T> = T extends { params: infer P } ? P : never;
+type Query = { _query: Record<string, string | number> };
+type NoParams = { _no_params: true };
+type RouteParams<T> = T extends { params: infer P } ? P : never;
+type IsParamRoute<T> = T extends { params: any } ? true : false;
+type IsNoParamRoute<T> = T extends NoParams ? true : false;
 
 // 1. Get the global router instance (no arguments)
 export function route(): Router;
 
-// 2. Parameterless route (returns Router for chaining)
-export function route<T extends keyof RouteList>(name: RouteList[T] extends { _no_params: true } ? T : never): string;
-
 // 3. Route with parameters (returns string URL)
 export function route<T extends keyof RouteList>(
-    name: RouteList[T] extends { params: any } ? T : never,
-    params: RouteWithParams<RouteList[T]>,
+    name: T extends T ? (IsParamRoute<RouteList[T]> extends true ? T : never) : never,
+    params: RouteParams<RouteList[T]>,
     absolute?: boolean,
 ): string;
 
-// 4. Parameterless route (returns string URL)
-export function route<T extends keyof RouteList>(name: RouteList[T] extends never ? T : never, params: never, absolute?: boolean): string;
+// 2. Parameterless route
+export function route<T extends keyof RouteList>(
+    name: T extends T ? (IsNoParamRoute<RouteList[T]> extends true ? T : never) : never,
+    params?: Query,
+    absolute?: boolean,
+): string;
 
 // Implementation
 export function route<T extends keyof RouteList>(name?: T, params?: any, absolute?: boolean): string | Router {
@@ -25,7 +30,7 @@ export function route<T extends keyof RouteList>(name?: T, params?: any, absolut
     return ziggyRoute(name, params, absolute);
 }
 
-export type RouteParams<T extends keyof RouteList> = RouteList[T] extends { params: infer P } ? P : never;
+// export type RouteParams<T extends keyof RouteList> = RouteList[T] extends { params: infer P } ? P : never;
 
 // For use in Vue templates
 export const $route = route;

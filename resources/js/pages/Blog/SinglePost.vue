@@ -45,7 +45,7 @@ const deleteHref = route('blog.destroy', { post: post.slug });
             <CommentInput :postSlug="post.slug" />
             <br />
             <br />
-            <PostComments :comments="comments" />
+            <PostComments :comments="comments" :post="post" />
         </div>
     </div>
 </template>
