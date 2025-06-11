@@ -13,6 +13,7 @@ declare module '@custom-types/ziggy-js' {
  'blog.destroy': {params: { post : string | number }};
  'blog.update': {params: { post : string | number }};
  'comment.store': {params: { post : string | number }};
+ 'comment.update': {params: { comment : string | number }};
  'comment.delete': {params: { comment : string | number }};
  'blog.vote': {params: { post : string | number }};
  'comment.vote': {params: { post : string | number, comment : string | number }};

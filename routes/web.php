@@ -26,6 +26,7 @@ Route::middleware('auth')->group(function () {
 
     // comment actions
     Route::post("/blog/{post:slug}/comments", [CommentController::class, "store"])->name('comment.store');
+    Route::patch("/blog/comments/{comment}", [CommentController::class, "update"])->can("update", "comment")->name("comment.update");
     Route::delete('/blog/comments/{comment}', [CommentController::class, 'destroy'])->can("delete", "comment")->name("comment.delete");
 
     // vote actions

@@ -49,10 +49,10 @@
 ## Comments
 
 [x] show comments under posts
-[ ] add comments policy
+[x] add comments policy
 [x] create comments (authorize logged in users)
-[ ] update comments (authorize comment owner)
-[ ] delete comments (authorize comment owner)
+[x] update comments (authorize comment owner)
+[x] delete comments (authorize comment owner)
 [ ] vote comments (authorize logged in user)
 [ ] create a nested comment section that allows for threads.
 [ ] authorize admin for delete comments
