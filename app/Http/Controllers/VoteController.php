@@ -2,27 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\VoteableType;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\VoteRequest;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Services\VoteService;
-use Illuminate\Http\Request;
+use App\Traits\Voteable;
+
 
 class VoteController extends Controller
 {
-    public function votePost(Request $request, Post $post)
+
+    public function update(VoteRequest $request)
     {
+        $data = $request->validated();
+        $model = $this->resolveModel($data['voteable_type'], $data['voteable_id']);
 
-        VoteService::VotePost($post, $request->input("vote_type"));
-
-        return redirect($request->input('redirect_to'));
+        if (!$model) {
+            return abort(404, "Voteable model not found");
+        }
+        VoteService::vote($model, $data['vote_type']);
+        return redirect()->to($data['redirect_to']);
     }
 
-    public function voteComment(Request $request, Post $post, Comment $comment)
+    private function resolveModel(string $type, int $id)
     {
-
-        VoteService::VoteComment($comment, $request->input("vote_type"));
-
-        return redirect("blog/{$post->slug}");
+        return match ($type) {
+            VoteableType::POST->value => Post::find($id),
+            VoteableType::COMMENT->value => Comment::find($id),
+            default => null,
+        };
     }
 }

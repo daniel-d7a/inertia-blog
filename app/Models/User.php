@@ -44,13 +44,10 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
-    public function postVotes(): HasMany
+
+    public function votes(): HasMany
     {
-        return $this->hasMany(PostVote::class);
-    }
-    public function commentVotes(): HasMany
-    {
-        return $this->hasMany(CommentVote::class);
+        return $this->hasMany(Vote::class);
     }
 
     public function isAdmin()

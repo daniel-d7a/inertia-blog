@@ -2,12 +2,13 @@
 
 namespace Database\Seeders;
 
+use App\Enums\VoteableType;
+use App\Enums\VoteType;
 use App\Models\Comment;
-use App\Models\CommentVote;
 use App\Models\Post;
-use App\Models\PostVote;
 use App\Models\Tag;
 use App\Models\User;
+use App\Models\Vote;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -19,7 +20,7 @@ class DatabaseSeeder extends Seeder
     {
 
         // create a user account
-        User::factory()->create([
+        $eyad = User::factory()->create([
             'name' => 'eyad',
             'email' => 'eyad@eyad.com',
             'password' => bcrypt('password'),
@@ -34,78 +35,63 @@ class DatabaseSeeder extends Seeder
         // create 15 posts attched to existing users
         $posts = Post::factory(15)->recycle($users)->create();
 
-
-        // we have 15 posts and 5 users
-        // max unique votes = 15 * 5 = 75
-        // create 70 votes spread across posts and users
-        // make sure a user can't vote on the same post more than once
-        // TODO: find a more elegant way for this
-        $postVoteCount = 0;
-        while ($postVoteCount < 70) {
-            $postVote = PostVote::factory()->recycle($posts)->recycle($users)->make();
-
-            $exists = PostVote::wherePostId($postVote->post_id)->whereUserId($postVote->user_id)->exists();
-
-            if (!$exists) {
-                $postVote->save();
-                $postVoteCount++;
-            }
-        }
-
-        // $votes = PostVote::factory(70)
-        //     ->recycle($posts)
-        //     ->recycle($users)
-        //     ->make()
-        //     ->unique(function (PostVote $postVote) {
-        //         return [$postVote->post_id, $postVote->user_id];
-        //     })
-        //     ->toArray();
-
-        // dd($votes);
-
-        // for each post attach 2 random tags and calculate the votes
-        // TODO: find a more elegant way for this
+        // attach 2 random tags to each post
         $posts->each(function (Post $post) use ($tags) {
             $post->tags()->attach($tags->random(2));
-
-            $post->votes_count = PostVote::wherePostId($post->id)->get()->sum(fn(PostVote $vote) => (int) $vote->vote_type);
-
-            $post->save();
         });
 
         // create 15 comments attached to existing users and posts
-        $comments = Comment::factory(15)->recycle($users)->recycle($posts)->create();
+        $comments = Comment::factory(50)->recycle($users)->recycle($posts)->create();
 
-        // we have 15 comments and 5 users
-        // max unique votes = 15 * 5 = 75
-        // create 70 votes spread across comments and users
-        // make sure a user can't vote on the same comment more than once
-        // TODO: find a more elegant way for this
-        $commentVotesCount = 0;
-        while ($commentVotesCount < 70) {
-            $commentVote = CommentVote::factory()->recycle($comments)->recycle($users)->make();
+        // Create 300 votes distributed between posts and comments
+        $voteables = collect()
+            ->merge($posts->map(fn($post) => ['type' => 'post', 'id' => $post->id, 'model' => $post]))
+            ->merge($comments->map(fn($comment) => ['type' => 'comment', 'id' => $comment->id, 'model' => $comment]));
 
-            $exists = CommentVote::whereCommentId($commentVote->comment_id)->whereUserId($commentVote->user_id)->exists();
 
-            if (!$exists) {
-                $commentVote->save();
-                $commentVotesCount++;
+        $this->createRandomVotes($users, $voteables);
+
+        $this->createRandomVotes(collect([$eyad]), $voteables, 100, 50);
+
+    }
+
+    private function createOneRandomVote($user_id, $voteable)
+    {
+        Vote::create([
+            'user_id' => $user_id,
+            'vote_type' => rand(0, 1) ? VoteType::UP->value : VoteType::DOWN->value,
+            'voteable_id' => $voteable['id'],
+            'voteable_type' => $voteable['type'] === 'post'
+                ? VoteableType::POST->value
+                : VoteableType::COMMENT->value,
+        ]);
+
+    }
+
+    private function createRandomVotes($users, $voteables, $maxAttempts = 400, $maxVotes = 200)
+    {
+        $createdVotes = 0;
+        $attemptNum = 0; // Prevent infinite loops
+        $usedCombinations = [];
+
+        while ($createdVotes < $maxVotes && $attemptNum++ < $maxAttempts) {
+            $voteable = $voteables->random();
+            $userId = $users->random()->id;
+
+            $combinationKey = "{$userId}:{$voteable['id']}:{$voteable['type']}";
+
+            if (!isset($usedCombinations[$combinationKey])) {
+                try {
+                    $this->createOneRandomVote($userId, $voteable);
+                    $usedCombinations[$combinationKey] = true;
+                    $createdVotes++;
+                } catch (\Illuminate\Database\QueryException $e) {
+                    // Duplicate found, try again
+                    continue;
+                }
             }
         }
+        $this->command->info("Created {$createdVotes} unique votes (some duplicates skipped)");
 
-        Comment::each(function (Comment $comment) {
-            $comment->votes_count = CommentVote::whereCommentId($comment->id)->get()->sum(fn(CommentVote $vote) => (int) $vote->vote_type);
-            $comment->save();
-        });
-
-
-        /**
-         * idea proposal
-         * 
-         * for each user
-         *      for each comment
-         *          create a random vote and save it to db
-         * 
-         */
     }
 }

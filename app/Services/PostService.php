@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Enums\VoteableType;
+use App\Models\Vote;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Post;
@@ -14,64 +16,51 @@ class PostService
         $q = $search['q'] ?? null;
         $tag = $search['tag'] ?? null;
 
-        return static::_get()
-            ->when(isset($q), function (Builder $query) use ($q) {
-                $query
-                    ->where('title', 'like', "%{$q}%")
-                    ->orWhere('body', 'like', "%{$q}%");
-            })
-            ->when(isset($tag), function (Builder $query) use ($tag) {
-                $query->whereHas('tags', function (Builder $query) use ($tag) {
-                    $query->where('name', '=', $tag);
-                });
-
-                // $query->with([
-                //     'tags' => function (Builder $innerQuery) use ($tag) {
-                //         $innerQuery->where('name', '=', $tag);
-                //     }
-                // ]);
-            })->paginate(10);
-    }
-    public static function getLatest()
-    {
-        return static::_get()->get();
+        return static::baseQuery()
+            ->latest()
+            ->when(isset($q), static::applySearchFilter($q))
+            ->when(isset($tag), static::applyTagFilter($tag))
+            ->paginate(10);
     }
 
-
-    private static function _get()
+    public static function getOne(Post $post)
     {
-        return Post::latest()
-            // get the current user's vote on each post
-            ->with([
-                'votes' => function (Builder $query) {
-                    $query->where('user_id', '=', Auth::id());
-                }
+        return static::baseQuery()->findOrFail($post->id);
+    }
+
+    private static function baseQuery()
+    {
+        $query = Post::query()
+            ->addSelect([
+                'current_user_vote' => Vote::select('vote_type')
+                    ->whereColumn('voteable_id', 'posts.id')
+                    ->where('voteable_type', VoteableType::POST->value)
+                    ->where('user_id', Auth::id())
+                    ->take(1)
             ])
-            // map from 'post_votes.0.vote_type' to 'vote_type'
-            // ->map(function (Post $post) {
+            // ->withSum('votes as votes', 'vote_type')
+            ->selectRaw('(select sum(cast(vote_type as char)) from votes where voteable_id = posts.id and voteable_type = ?) as votes', [VoteableType::POST->value]);
 
-            //     $postArray = $post->toArray();
-
-            //     return array_merge(
-            //         Arr::except($postArray, 'post_votes'),
-            //         ['vote_type' => Arr::get($postArray, 'post_votes.0.vote_type')]
-            //     );
-            // })
-        ;
+        return $query;
     }
 
-
-    public static function getWithVotes(Post $post)
+    protected static function applySearchFilter(?string $searchTerm): \Closure
     {
-        // $vote = $post
-        //     ->votes()
-        //     ->whereUserId(Auth::id())
-        //     ->get('vote_type')
-        //     ->first()
-        //         ?->toArray() ?? [];
+        return function (Builder $query) use ($searchTerm) {
+            $query->where(function (Builder $query) use ($searchTerm) {
+                $query->where('title', 'like', "%{$searchTerm}%")
+                    ->orWhere('body', 'like', "%{$searchTerm}%");
+            });
+        };
+    }
 
-
-        return $post->withCurrentUserVote();
+    protected static function applyTagFilter(?string $tagName): \Closure
+    {
+        return function (Builder $query) use ($tagName) {
+            $query->whereHas('tags', function (Builder $query) use ($tagName) {
+                $query->where('name', $tagName);
+            });
+        };
     }
 
 }

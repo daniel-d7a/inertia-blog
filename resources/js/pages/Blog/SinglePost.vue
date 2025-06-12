@@ -22,14 +22,13 @@ const authUser = computed(() => usePage<SharedData>().props.auth.user).value;
 function deletePostConfirmation() {
     return confirm('are you sure?');
 }
-const voteHref = route('blog.vote', { post: post.slug });
 const editHref = route('blog.edit', { post: post.slug });
 const deleteHref = route('blog.destroy', { post: post.slug });
 </script>
 
 <template>
     <div class="mx-auto mt-16 mb-8 flex w-2/3 items-start gap-4">
-        <Votes :vote-href="voteHref" :votes="post.votes_count" :currentVote="post.votes[0]?.vote_type" />
+        <Votes :votes="post.votes" :currentVote="post.current_user_vote" voteable-type="Post" :voteable_id="post.id" />
 
         <div class="grow">
             <h2 class="text-app-blue mb-2 text-3xl font-bold">{{ post.title }}</h2>

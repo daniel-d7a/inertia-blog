@@ -1,43 +1,40 @@
 <script setup lang="ts">
-
-import { ChevronDown, ChevronUp } from 'lucide-vue-next';
-import { Link, router, usePage } from '@inertiajs/vue3';
+import { route } from '@/helpers/route';
 import { cn } from '@/lib/utils';
-import { VoteEnum, VoteType } from '@/types/AppTypes';
+import { SharedData } from '@/types';
+import { VotableType, VoteEnum, VoteType } from '@/types/AppTypes';
+import { Link, usePage } from '@inertiajs/vue3';
+import { ChevronDown, ChevronUp } from 'lucide-vue-next';
 
 interface Props {
     linkVoteType: NonNullable<VoteType>;
     currentVoteType: VoteType;
-    voteHref: string;
+    linkData: { voteable_type: VotableType; voteable_id: number };
     clickHandler?: () => void;
 }
 
-const pageUrl = usePage().url
+const pageUrl = usePage<SharedData>().url;
 
-const {
-    linkVoteType,
-    currentVoteType,
-    voteHref
-} = defineProps<Props>()
-
-const linkData = {
-    vote_type: linkVoteType,
-    redirect_to: pageUrl
-}
-
-//@finish="refresh"
-
+const { linkVoteType, currentVoteType, linkData } = defineProps<Props>();
 </script>
 
-<template>
-    <Link preserve-state preserve-scroll @click="clickHandler" method="post" :data="linkData"
-        :class="cn('hover:bg-gray-200', { 'bg-gray-300': currentVoteType === linkVoteType })" :href="voteHref">
+<!-- TODO:change arrows to something that can be an outline or solid -->
 
-    <template v-if="linkVoteType === VoteEnum.UP">
-        <ChevronUp />
-    </template>
-    <template v-else>
-        <ChevronDown />
-    </template>
+<template>
+    <Link
+        preserve-state
+        preserve-scroll
+        @click="clickHandler"
+        method="post"
+        :data="{ ...linkData, vote_type: linkVoteType, redirect_to: pageUrl }"
+        :class="cn('hover:bg-gray-200', { 'bg-gray-300': currentVoteType === linkVoteType })"
+        :href="route('vote.update')"
+    >
+        <template v-if="linkVoteType === VoteEnum.UP">
+            <ChevronUp />
+        </template>
+        <template v-else>
+            <ChevronDown />
+        </template>
     </Link>
 </template>

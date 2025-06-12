@@ -34,6 +34,11 @@ interface WithTimestamps {
     updated_at: Date;
 }
 
+interface WithVotes {
+    votes: number | null;
+    current_user_vote?: VoteType;
+}
+
 export const VoteEnum = {
     UP: '1',
     DOWN: '-1',
@@ -46,31 +51,29 @@ export interface Tag extends Entity, WithTimestamps {
     name: string;
 }
 
-export interface PostVote extends Entity, WithTimestamps {
-    user_id: number;
-    post_id: number;
-    vote_type: NonNullable<VoteType>;
-}
-
-export interface CommentVote extends Entity, WithTimestamps {
-    user_id: number;
-    comment_id: number;
-    vote_type: NonNullable<VoteType>;
-}
-
-export interface Post extends Entity, WithTimestamps {
+export interface Post extends Entity, WithTimestamps, WithVotes {
     title: string;
     body: string;
-    votes_count: number;
     user: User;
     tags: Tag[];
-    votes: [PostVote?];
     slug: string;
 }
 
-export interface Comment extends Entity, WithTimestamps {
+export interface Comment extends Entity, WithTimestamps, WithVotes {
     body: string;
-    votes_count: number;
     user: User;
-    votes: [CommentVote?];
+}
+
+export const VotableTypesEnum = {
+    POST: 'Post',
+    COMMENT: 'Comment',
+} as const;
+
+export type VotableType = (typeof VotableTypesEnum)[keyof typeof VotableTypesEnum];
+
+export interface Vote {
+    votable_id: number;
+    votable_type: VotableType;
+    vote_type: NonNullable<VoteType>;
+    user_id: number;
 }

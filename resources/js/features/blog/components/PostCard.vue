@@ -16,13 +16,12 @@ const { post } = defineProps<Props>();
 
 const previewBody = getPreviewText(post.body, 200);
 
-const voteHref = route('blog.vote', { post: post.slug });
 const postHref = route('blog.show', { post: post.slug });
 </script>
 
 <template>
     <div class="group my-8 flex items-start gap-4">
-        <Votes :vote-href="voteHref" :current-vote="post.votes[0]?.vote_type" :votes="post.votes_count" />
+        <Votes :current-vote="post.current_user_vote" :votes="post.votes" voteable-type="Post" :voteable_id="post.id" />
         <Link :prefetch="true" :href="postHref">
             <div>
                 <h2 class="text-app-blue mb-2 text-xl font-bold group-hover:underline">{{ post.title }}</h2>

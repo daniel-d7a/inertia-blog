@@ -1,18 +1,24 @@
 <script setup lang="ts">
-import { VoteEnum, type VoteType } from '@/types/AppTypes';
+import { VotableType, VoteEnum, type VoteType } from '@/types/AppTypes';
 import { ref } from 'vue';
 import VoteLink from './VoteLink.vue';
 
 interface Props {
-    votes: number;
+    votes: number | null;
     currentVote: VoteType;
-    voteHref: string;
+    voteableType: VotableType;
+    voteable_id: number;
 }
 
-const { currentVote, votes, voteHref } = defineProps<Props>();
+const { currentVote, votes, voteableType, voteable_id } = defineProps<Props>();
 
-const optimisticVotes = ref(votes);
+const optimisticVotes = ref(votes ?? 0);
 const optimisticCurrentVote = ref(currentVote);
+
+const linkData = {
+    voteable_type: voteableType,
+    voteable_id: voteable_id,
+};
 
 function voteOptimistic(newVote: VoteType) {
     // if no vote and I vote add vote
@@ -39,14 +45,14 @@ function voteOptimistic(newVote: VoteType) {
             :click-handler="() => voteOptimistic(VoteEnum.UP)"
             :current-vote-type="optimisticCurrentVote"
             :link-vote-type="VoteEnum.UP"
-            :vote-href="voteHref"
+            :link-data="linkData"
         />
         {{ optimisticVotes }}
         <VoteLink
             :click-handler="() => voteOptimistic(VoteEnum.DOWN)"
             :current-vote-type="optimisticCurrentVote"
             :link-vote-type="VoteEnum.DOWN"
-            :vote-href="voteHref"
+            :link-data="linkData"
         />
     </div>
 </template>

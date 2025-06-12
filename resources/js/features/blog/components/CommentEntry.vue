@@ -6,6 +6,7 @@ import { router, usePage } from '@inertiajs/vue3';
 import dayjs from 'dayjs';
 import { SquarePen, Trash2 } from 'lucide-vue-next';
 import { computed, ref, useTemplateRef } from 'vue';
+import Votes from './Votes.vue';
 
 interface Props {
     comment: Comment;
@@ -18,8 +19,6 @@ const user = computed(() => page.props.auth.user);
 
 const isEditing = ref(false);
 const commentTextRef = useTemplateRef<HTMLParagraphElement>('commentText');
-
-// const voteHref = `/posts/{post.id}/comments/${comment.id}/vote`;
 
 const deleteHref = route('comment.delete', { comment: comment.id });
 
@@ -55,8 +54,8 @@ function cancelUpdate() {
 
 <template>
     <div class="flex items-start gap-4">
-        <!-- <PostVotes :vote-href="voteHref" /> -->
-        <p class="text-lg font-bold">{{ comment.votes_count }}</p>
+        <Votes :votes="comment.votes" :currentVote="comment.current_user_vote" voteable-type="Comment" :voteable_id="comment.id" />
+        <p class="text-lg font-bold">{{ comment.votes }}</p>
         <div class="w-full">
             <div class="mb-2 flex items-center gap-4 text-sm">
                 <p class="font-semibold">{{ comment.user.name }}</p>

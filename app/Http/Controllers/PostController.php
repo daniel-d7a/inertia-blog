@@ -11,6 +11,7 @@ use App\Services\CommentService;
 use App\Services\PostService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class PostController extends Controller
@@ -20,7 +21,7 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-
+        // dump($request->query());
         $data = PostService::getLatestPaginted($request->query());
 
         return Inertia::render("Blog/Index", [
@@ -37,7 +38,7 @@ class PostController extends Controller
     {
         return Inertia::render("Blog/SinglePost", [
             'responseData' => [
-                'post' => PostService::getWithVotes($post),
+                'post' => PostService::getOne($post),
                 'comments' => CommentService::getPostComments($post->id),
             ]
         ]);
@@ -58,31 +59,28 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
     public function store(StorePostRequest $request)
     {
+        return DB::transaction(function () use ($request) {
+            $post = Post::create([
+                'title' => $request->validated('title'),
+                'body' => $request->validated('body'),
+                'user_id' => Auth::id()
+            ]);
 
-        // TODO: find a better way to do this
-        $requestData = $request->validated();
+            // Handle all tags in one go
+            $tagIds = collect($request->validated('existingTags'))->pluck('id');
 
-        $newPost = Post::create([
-            'title' => $requestData['title'],
-            'body' => $requestData['body'],
-            'user_id' => Auth::id(),
-        ]);
+            // Sync existing and new tags (preventing duplicates)
+            $tagIds = $tagIds->merge(
+                Tag::resolveTags($request->validated('newTags'))->pluck('id')
+            );
 
-        $existingTagsFromDb = Tag::whereIn('id', array_map(fn($tag) => $tag['id'], $requestData['existingTags']))->get();
-        $newPost->tags()->attach($existingTagsFromDb);
+            $post->tags()->sync($tagIds);
 
-        $newTags = $requestData['newTags'];
-
-        $newTagsFromDb = [];
-        foreach ($newTags as $tagName) {
-            $newTagsFromDb[] = Tag::create(['name' => $tagName]);
-        }
-
-        $newPost->tags()->attach($newTagsFromDb);
-
-        return to_route('blog.index');
+            return to_route('blog.index');
+        });
     }
 
     /**

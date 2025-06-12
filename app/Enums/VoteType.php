@@ -2,8 +2,6 @@
 
 namespace App\Enums;
 
-use PhpParser\Builder\EnumCase;
-
 enum VoteType: string
 {
     case UP = '1';
@@ -11,7 +9,7 @@ enum VoteType: string
 
     public static function toValues()
     {
-        return array_map(fn(VoteType $case) => $case->value, static::cases());
+        return array_column(self::cases(), 'value');
     }
 
 }

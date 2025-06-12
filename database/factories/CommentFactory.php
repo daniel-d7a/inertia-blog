@@ -20,7 +20,7 @@ class CommentFactory extends Factory
     {
         return [
             'body' => fake()->text,
-            'votes_count' => fake()->numberBetween(-10, 10),
+            // 'votes_count' => fake()->numberBetween(-10, 10),
             'user_id' => User::factory(),
             'post_id' => Post::factory(),
         ];
