@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import Tag from '@/features/blog/components/Tag.vue';
 import { route } from '@/helpers/route';
-import { getPreviewText } from '@/helpers/text';
 import { Post } from '@/types/AppTypes';
 import { Link } from '@inertiajs/vue3';
 import dayjs from 'dayjs';
@@ -14,7 +13,6 @@ interface Props {
 
 const { post } = defineProps<Props>();
 
-const previewBody = getPreviewText(post.body, 200);
 
 const postHref = route('blog.show', { post: post.slug });
 </script>
@@ -24,7 +22,7 @@ const postHref = route('blog.show', { post: post.slug });
         <Votes :current-vote="post.current_user_vote" :votes="post.votes" voteable-type="Post" :voteable_id="post.id" />
         <Link :prefetch="true" :href="postHref">
             <div>
-                <h2 class="text-app-blue mb-2 text-xl font-bold group-hover:underline">{{ post.title }}</h2>
+                <h2 class="text-app-blue mb-2 text-3xl font-bold group-hover:underline">{{ post.title }}</h2>
                 <div class="my-2 flex items-center gap-4 text-xs">
                     <p>{{ post.user.name }}</p>
                     <span class="h-4 w-1 border-l-2 border-gray-300" />
@@ -33,7 +31,7 @@ const postHref = route('blog.show', { post: post.slug });
                     <!-- TODO:add time to read to posts -->
                     <p>time to read</p>
                 </div>
-                <p class="text-gray-400">{{ previewBody }}</p>
+                <!-- <p class="text-gray-400">{{ previewBody }}</p> -->
                 <div class="mt-4 flex gap-6" v-if="post.tags">
                     <Tag v-for="tag in post.tags" :key="tag.id" :tag="tag" />
                 </div>

@@ -5,6 +5,7 @@
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -85,6 +86,16 @@
         --font-sans:
             'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
     }
+}
+
+.prose {
+    @apply prose-headings:font-semibold;
+    @apply prose-a:text-blue-600 hover:prose-a:text-blue-800;
+    @apply prose-code:bg-gray-100 prose-code:p-1 prose-code:rounded;
+    @apply prose-pre:bg-gray-800 prose-pre:text-gray-100;
+    @apply prose-img:rounded-lg prose-img:shadow-md;
+    @apply prose-blockquote:border-l-4 prose-blockquote:border-gray-300;
+    @apply prose-ul:list-disc prose-ol:list-decimal;
 }
 
 :root {

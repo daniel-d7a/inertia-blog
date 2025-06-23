@@ -1,16 +1,14 @@
 ## Architecture
 
-[ ] split pages down into smaller components.
+[x] split pages down into smaller components.
 [x] standerize type for (props, declarations, ...etc).
 [ ] split routes into separate files based on resource or path.
-[ ] define a default layout
+[x] define a default layout
 
 ## Database
 
 [x] implement basic models (post, user, tag, comment)
 [x] implement seeders
-[x] make tables for post votes.
-[ ] make tables for comment votes.
 
 ## UI
 
@@ -53,17 +51,9 @@
 [x] create comments (authorize logged in users)
 [x] update comments (authorize comment owner)
 [x] delete comments (authorize comment owner)
-[ ] vote comments (authorize logged in user)
+[x] vote comments (authorize logged in user)
 [ ] create a nested comment section that allows for threads.
 [ ] authorize admin for delete comments
-
-## Comment votes
-
-[ ] make migration and database table.
-[ ] configure the seeder and factory with correct relations to comment votes.
-[ ] make controller with vote method. (authorize logged in users)
-[ ] add optimistic updates to voting.
-[ ] make comments their own request so that I can refresh them without refreshing the whole page
 
 ## Authintication
 
@@ -95,9 +85,7 @@
 ## random tasks and ideas
 
 [x] extract a tag component
-[ ] add type generation from php to typescript
-
-
+[ ] add type generation from php to typescript (tried and failed)
 
 - add threads of posts (a topic that has multiple posts related to it)
 - add rich text input
@@ -148,16 +136,9 @@
 - how to create a model that is related to 2 other models (postVote, comment, ...etc)
 - how to create models related to the current auth user without setting the user id manually
 - using forward and backward buttons uses a cached version of the pages, while url routing gets a fresh copy
-- how to map the items before pagination and still be able to apply pagination
 - how to create models in bulk using eloquent
 - how to redirect to the route I was on before e.g. logging in?
-- how to make one table for votes have refernce to a comment or a post and get the correct mapping and relationships setup using eloquent?
-    - id
-    - user_id
-    - ref_id (post_id, comment_id, ...etc.)
-    - type (post, comment, ...etc.)
-    - vote_type (up, down)
-    - the combination of (user_id, ref_id, type) must be unique.
+
 - how to use generics in php ???????????????
 
 

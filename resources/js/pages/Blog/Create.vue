@@ -3,6 +3,7 @@ import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import RichTextEditor from '@/features/blog/components/RichTextEditor.vue';
 import TagsDropDown from '@/features/blog/components/TagsDropDown.vue';
 import { route } from '@/helpers/route';
 import AppLayout from '@/layouts/app/AppLayout.vue';
@@ -54,12 +55,12 @@ const submit = () => {
     <form @submit.prevent="submit" class="mx-auto flex w-2/3 flex-col gap-6">
         <div class="grid gap-2">
             <Label class="text-xl font-bold" for="title">Title</Label>
-            <Input id="title" type="text" required autofocus :tabindex="1" v-model="form.title" placeholder="My awesome post" />
+            <Input id="title" type="text" required autofocus maxlength="120" :tabindex="1" v-model="form.title" placeholder="My awesome post" />
             <InputError :message="form.errors.title" />
         </div>
         <div class="grid gap-2">
             <Label class="text-xl font-bold" for="body">Body</Label>
-            <Input id="body" type="text" required autofocus :tabindex="2" v-model="form.body" placeholder="My great idea" />
+            <RichTextEditor @change="(html) => (form.body = html)" />
             <InputError :message="form.errors.body" />
         </div>
 

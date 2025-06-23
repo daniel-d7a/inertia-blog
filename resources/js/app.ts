@@ -7,6 +7,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import type { DefineComponent } from 'vue';
 import { createApp, h } from 'vue';
+import VueDOMPurifyHTML from 'vue-dompurify-html';
 import { ZiggyVue } from 'ziggy-js';
 import { initializeTheme } from './composables/useAppearance';
 
@@ -35,8 +36,8 @@ createInertiaApp({
     setup({ el, App, props, plugin }) {
         const vueApp = createApp({ render: () => h(App, props) })
             .use(plugin)
-            .use(ZiggyVue);
-
+            .use(ZiggyVue)
+            .use(VueDOMPurifyHTML);
         vueApp.config.globalProperties.$route = $route;
 
         vueApp.mount(el);

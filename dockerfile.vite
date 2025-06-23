@@ -10,6 +10,6 @@ RUN npm ci
 COPY vite.config.ts ./
 COPY resources/ ./resources/
 
-EXPOSE 5173
+EXPOSE 5173 
 
 CMD ["npm", "run", "dev"]

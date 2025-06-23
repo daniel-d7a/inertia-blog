@@ -1,3 +1,1 @@
-cd /D p:\projects\inertia-blog-project && npm run dev
-
-cd /D p:\projects\inertia-blog-project && php artisan serve
+npm i @tiptap/extension-underline @tiptap/extension-highlight @tiptap/extension-image @tiptap/extension-link @tiptap/extension-placeholder @tiptap/extension-text-align @tiptap/extension-character-count
