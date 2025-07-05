@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Services\PostService;
 use App\Traits\Voteable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -47,17 +46,4 @@ class Post extends Model
         $post->slug = $count ? "{$slug}-{$count}" : $slug;
     }
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($post) {
-            static::createSlug($post);
-        });
-
-        static::updating(function ($post) {
-            static::createSlug($post);
-        });
-
-    }
 }

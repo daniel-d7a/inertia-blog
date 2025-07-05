@@ -36,6 +36,8 @@
 [x] search post by title or body
 [x] search post by tag
 [x] use slugs for posts instead of numeric IDs
+[x] add time to read
+[x] add update tags to posts
 
 ## Post votes
 
@@ -78,7 +80,7 @@
 
 ## refactoring
 
-[ ] refactor the seeder
+[x] refactor the seeder
 [ ] remove all unnecessary files and folders
 [ ] understand the (already setup) auth system
 
@@ -86,9 +88,9 @@
 
 [x] extract a tag component
 [ ] add type generation from php to typescript (tried and failed)
+[x] add rich text input
 
 - add threads of posts (a topic that has multiple posts related to it)
-- add rich text input
 - add user profile.
     - user preferences
     - user posts

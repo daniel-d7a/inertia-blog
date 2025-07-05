@@ -7,10 +7,12 @@ use App\Models\Vote;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Post;
+use App\Models\Tag;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class PostService
 {
-
     public static function getLatestPaginted(?array $search)
     {
         $q = $search['q'] ?? null;
@@ -27,6 +29,26 @@ class PostService
     {
         return static::baseQuery()->findOrFail($post->id);
     }
+
+    public static function create(Request $request){
+        return DB::transaction(function () use ($request) {
+            $post = Post::create($request->safe()->only(['title', 'body']) + ['user_id' => Auth::id()]);
+
+            static::syncTags($post, $request->validated());
+
+            return $post;
+        });
+    }
+
+
+    public static function update(Post $post, Request $request){
+;
+        $post->update($request->safe()->only(['title', 'body']));
+        static::syncTags($post, $request->validated());
+        return $post;
+    }
+
+
 
     private static function baseQuery()
     {
@@ -61,6 +83,21 @@ class PostService
                 $query->where('name', $tagName);
             });
         };
+    }
+
+    private static function syncTags(Post $post, array $validatedData): void
+    {
+        // Handle all tags in one go
+        $tagIds = collect($validatedData['existingTags'] ?? [])->pluck('id');
+
+        if (!empty($validatedData['newTags'])) {
+            // Sync existing and new tags (preventing duplicates)
+            $tagIds = $tagIds->merge(
+                Tag::resolveTags($validatedData['newTags'])->pluck('id')
+            );
+        }
+
+        $post->tags()->sync($tagIds);
     }
 
 }

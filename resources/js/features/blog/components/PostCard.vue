@@ -13,7 +13,6 @@ interface Props {
 
 const { post } = defineProps<Props>();
 
-
 const postHref = route('blog.show', { post: post.slug });
 </script>
 
@@ -23,13 +22,12 @@ const postHref = route('blog.show', { post: post.slug });
         <Link :prefetch="true" :href="postHref">
             <div>
                 <h2 class="text-app-blue mb-2 text-3xl font-bold group-hover:underline">{{ post.title }}</h2>
-                <div class="my-2 flex items-center gap-4 text-xs">
+                <div class="my-2 flex items-center gap-3 text-xs">
                     <p>{{ post.user.name }}</p>
                     <span class="h-4 w-1 border-l-2 border-gray-300" />
                     <p class="flex items-center gap-2"><Calendar :size="16" /> {{ dayjs(post.created_at).format('DD MMMM YYYY') }}</p>
                     <span class="h-4 w-1 border-l-2 border-gray-300" />
-                    <!-- TODO:add time to read to posts -->
-                    <p>time to read</p>
+                    <p>{{ post.time_to_read }} minute read</p>
                 </div>
                 <!-- <p class="text-gray-400">{{ previewBody }}</p> -->
                 <div class="mt-4 flex gap-6" v-if="post.tags">

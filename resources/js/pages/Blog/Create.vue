@@ -5,12 +5,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import RichTextEditor from '@/features/blog/components/RichTextEditor.vue';
 import TagsDropDown from '@/features/blog/components/TagsDropDown.vue';
+import { useTagDropDown } from '@/features/blog/composables/useTagDropDown';
 import { route } from '@/helpers/route';
 import AppLayout from '@/layouts/app/AppLayout.vue';
-import { Tag } from '@/types/AppTypes';
 import { Head, useForm } from '@inertiajs/vue3';
 import { LoaderCircle } from 'lucide-vue-next';
-import { ref } from 'vue';
 
 defineOptions({ layout: AppLayout });
 
@@ -19,32 +18,12 @@ const form = useForm({
     body: '',
 });
 
-const selectedTags = ref<(Tag | string)[]>([]);
-
-function onRemoveTag(tag: Tag | string) {
-    const index = selectedTags.value.indexOf(tag);
-    if (index !== -1) selectedTags.value.splice(index, 1);
-}
-function onSelectTag(tag: Tag | string) {
-    if (!selectedTags.value.includes(tag)) selectedTags.value.push(tag);
-}
+const { selectedTags, onRemoveTag, onSelectTag, getTagsData } = useTagDropDown();
 
 const submit = () => {
-    const tagsData = selectedTags.value.reduce(
-        (acc, curr) => {
-            if (typeof curr === 'string') {
-                acc.newTags.push(curr);
-            } else {
-                acc.existingTags.push(curr);
-            }
-            return acc;
-        },
-        { newTags: [] as string[], existingTags: [] as Tag[] },
-    );
-
     form.transform((data) => ({
         ...data,
-        ...tagsData,
+        ...getTagsData(),
     })).post(route('blog.store'));
 };
 </script>

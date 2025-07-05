@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Comment;
+use App\Models\Post;
+use App\Observers\PostObserver;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Model;
@@ -23,8 +26,10 @@ class AppServiceProvider extends ServiceProvider
     {
         Model::preventSilentlyDiscardingAttributes($this->app->isLocal());
         Relation::morphMap([
-            'Post' => \App\Models\Post::class,
-            'Comment' => \App\Models\Comment::class,
+            'Post' => Post::class,
+            'Comment' => Comment::class,
         ]);
+
+        Post::observe(PostObserver::class);
     }
 }

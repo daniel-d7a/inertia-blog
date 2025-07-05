@@ -57,6 +57,7 @@ export interface Post extends Entity, WithTimestamps, WithVotes {
     user: User;
     tags: Tag[];
     slug: string;
+    time_to_read: number;
 }
 
 export interface Comment extends Entity, WithTimestamps, WithVotes {

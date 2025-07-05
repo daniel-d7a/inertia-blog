@@ -3,9 +3,12 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Traits\TagValidationRules;
 
 class UpdatePostRequest extends FormRequest
 {
+    use TagValidationRules;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -21,9 +24,9 @@ class UpdatePostRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'title' => 'filled|max:255',
-            'body' => 'filled'
-        ];
+        return array_merge([
+            "title" => "filled|max:255",
+            "body" => "filled",
+        ], $this->tagRules());
     }
 }

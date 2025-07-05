@@ -62,25 +62,9 @@ class PostController extends Controller
 
     public function store(StorePostRequest $request)
     {
-        return DB::transaction(function () use ($request) {
-            $post = Post::create([
-                'title' => $request->validated('title'),
-                'body' => $request->validated('body'),
-                'user_id' => Auth::id()
-            ]);
+        $post = PostService::create($request);
 
-            // Handle all tags in one go
-            $tagIds = collect($request->validated('existingTags'))->pluck('id');
-
-            // Sync existing and new tags (preventing duplicates)
-            $tagIds = $tagIds->merge(
-                Tag::resolveTags($request->validated('newTags'))->pluck('id')
-            );
-
-            $post->tags()->sync($tagIds);
-
-            return to_route('blog.index');
-        });
+        return to_route('blog.show', $post);
     }
 
     /**
@@ -91,6 +75,7 @@ class PostController extends Controller
         return Inertia::render("Blog/Update", [
             'responseData' => [
                 'post' => $post,
+                "tags" => Tag::all(),
             ]
         ]);
     }
@@ -100,8 +85,8 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
-        $post->update($request->validated());
 
+        $post = PostService::update($post, $request);
         return redirect("blog/{$post->slug}");
     }
 
@@ -114,5 +99,7 @@ class PostController extends Controller
 
         return to_route('blog.index');
     }
+
+
 
 }

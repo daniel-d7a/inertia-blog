@@ -25,7 +25,7 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits(['update:modelValue', 'change']);
 
 const editor = useEditor({
-    content: undefined,
+    content: props.modelValue,
     extensions: [
         StarterKit.configure({
             codeBlock: {

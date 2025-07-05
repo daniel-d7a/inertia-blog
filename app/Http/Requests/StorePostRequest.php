@@ -4,9 +4,12 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use App\Traits\TagValidationRules;
 
 class StorePostRequest extends FormRequest
 {
+
+    use TagValidationRules;
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -22,25 +25,9 @@ class StorePostRequest extends FormRequest
      */
     public function rules(): array
     {
-
-        // existing tags
-        // [x] array name, id
-        // [x] unique id
-        // [x] exists in db
-
-        // new tags
-        // [x] array full of strings
-        // [x] must be all unique
-        // [x] must have unique db names 
-
-        return [
+        return array_merge([
             "title" => "required|max:255",
             "body" => "required",
-            'newTags' => 'nullable|array',
-            'newTags.*' => ["string", "max:100", "unique:tags,name", "distinct:ignore_case"],
-            // TODO:validate array keys
-            'existingTags' => 'nullable|array',
-            'existingTags.*.id' => ['exists:tags,id', 'distinct'],
-        ];
+        ], $this->tagRules());
     }
 }
