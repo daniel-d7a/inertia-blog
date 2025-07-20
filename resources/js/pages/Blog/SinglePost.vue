@@ -32,6 +32,7 @@ const deleteHref = route('blog.destroy', { post: post.slug });
         <Votes :votes="post.votes" :currentVote="post.current_user_vote" voteable-type="Post" :voteable_id="post.id" />
 
         <div class="grow">
+            <img v-if="post.image_banner_url" :src="post.image_banner_url" alt="Post Banner" class="mb-4 h-auto w-full rounded-md" />
             <h2 class="text-app-blue mb-2 text-5xl font-bold">{{ post.title }}</h2>
             <div class="mt-4 flex gap-6" v-if="post.tags">
                 <Tag v-for="tag in post.tags" :key="tag.id" :tag="tag" />

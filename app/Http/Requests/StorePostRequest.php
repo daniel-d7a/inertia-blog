@@ -28,6 +28,7 @@ class StorePostRequest extends FormRequest
         return array_merge([
             "title" => "required|max:255",
             "body" => "required",
+            "banner" => "nullable|image|max:2048",
         ], $this->tagRules());
     }
 }

@@ -17,9 +17,9 @@ const postHref = route('blog.show', { post: post.slug });
 </script>
 
 <template>
-    <div class="group my-8 flex items-start gap-4">
+    <div class="group my-8 flex items-center gap-4">
         <Votes :current-vote="post.current_user_vote" :votes="post.votes" voteable-type="Post" :voteable_id="post.id" />
-        <Link :prefetch="true" :href="postHref">
+        <Link :prefetch="true" :href="postHref" class="grow">
             <div>
                 <h2 class="text-app-blue mb-2 text-3xl font-bold group-hover:underline">{{ post.title }}</h2>
                 <div class="my-2 flex items-center gap-3 text-xs">
@@ -35,5 +35,9 @@ const postHref = route('blog.show', { post: post.slug });
                 </div>
             </div>
         </Link>
+        <div class="grid max-w-48 place-content-center p-4">
+            <img v-if="post.image_banner_url" :src="post.image_banner_url" alt="Post Banner" class="h-auto w-full rounded-md object-contain" />
+        </div>
     </div>
+    <div class="w-full border border-gray-100"></div>
 </template>

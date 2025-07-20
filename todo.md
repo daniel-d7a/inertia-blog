@@ -38,6 +38,8 @@
 [x] use slugs for posts instead of numeric IDs
 [x] add time to read
 [x] add update tags to posts
+[ ] add images to posts
+
 
 ## Post votes
 
@@ -129,13 +131,13 @@
 - add locallization
 - allow importing markdown files (in a specific format).
 - add images to users
-- add images to posts
 - add a toast for actions
 
 
 ## questions
 
 - how to create a model that is related to 2 other models (postVote, comment, ...etc)
+    - polymorphic relations
 - how to create models related to the current auth user without setting the user id manually
 - using forward and backward buttons uses a cached version of the pages, while url routing gets a fresh copy
 - how to create models in bulk using eloquent

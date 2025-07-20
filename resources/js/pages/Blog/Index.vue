@@ -18,7 +18,7 @@ const hasPrev = posts.current_page !== 1;
 </script>
 
 <template>
-    <div class="mx-auto w-2/3">
+    <div class="mx-auto max-w-2/3">
         <PostCard v-for="post in posts.data" :key="post.id" :post="post" />
     </div>
 

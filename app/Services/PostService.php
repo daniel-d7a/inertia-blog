@@ -3,13 +3,15 @@
 namespace App\Services;
 
 use App\Enums\VoteableType;
+use App\Http\Requests\StorePostRequest;
+use App\Http\Requests\UpdatePostRequest;
 use App\Models\Vote;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PostService
 {
@@ -30,9 +32,16 @@ class PostService
         return static::baseQuery()->findOrFail($post->id);
     }
 
-    public static function create(Request $request){
+    public static function create(StorePostRequest $request)
+    {
         return DB::transaction(function () use ($request) {
-            $post = Post::create($request->safe()->only(['title', 'body']) + ['user_id' => Auth::id()]);
+            $data = $request->safe()->only(['title', 'body']);
+
+            if ($request->hasFile('banner')) {
+                $data['image_banner_path'] = $request->file('banner')->store('banners', 'public');
+            }
+
+            $post = Post::create($data + ['user_id' => Auth::id()]);
 
             static::syncTags($post, $request->validated());
 
@@ -41,11 +50,25 @@ class PostService
     }
 
 
-    public static function update(Post $post, Request $request){
-;
-        $post->update($request->safe()->only(['title', 'body']));
+    public static function update(Post $post, UpdatePostRequest $request)
+    {
+        $data = $request->safe()->only(['title', 'body']);
+
+        if ($request->hasFile('banner')) {
+            static::deleteBanner($post);
+            $data['image_banner_path'] = $request->file('banner')->store('banners', 'public');
+        }
+
+        $post->update($data);
         static::syncTags($post, $request->validated());
         return $post;
+    }
+
+    private static function deleteBanner(Post $post): void
+    {
+        if ($post->image_banner_path) {
+            Storage::disk('public')->delete($post->image_banner_path);
+        }
     }
 
 

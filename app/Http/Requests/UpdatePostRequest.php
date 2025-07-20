@@ -27,6 +27,7 @@ class UpdatePostRequest extends FormRequest
         return array_merge([
             "title" => "filled|max:255",
             "body" => "filled",
+            "banner" => "nullable|image|max:2048",
         ], $this->tagRules());
     }
 }
