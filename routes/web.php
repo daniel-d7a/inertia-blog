@@ -10,29 +10,49 @@ Route::inertia('/about', 'About')->name('about');
 Route::inertia('dashboard', "Dashboard")->middleware(['auth', 'verified'])->name('dashboard');
 
 
-Route::get("/blog", [PostController::class, "index"])->name('blog.index');
 
-Route::middleware('auth')->group(function () {
 
-    // views
-    Route::get("/blog/create", [PostController::class, "create"])->name('blog.create');
-    Route::get("/blog/{post:slug}/edit", [PostController::class, "edit"])->name('blog.edit')->can('update', 'post');
-    Route::get("/blog/{post:slug}", [PostController::class, "show"])->name('blog.show');
+Route::prefix("profile")->group(function () {
+    Route::get("{user}", []);
 
-    // post actions
-    Route::post("/blog", [PostController::class, "store"])->name('blog.store');
-    Route::delete("/blog/{post:slug}", [PostController::class, "destroy"])->can('delete', 'post')->name('blog.destroy');
-    Route::patch("/blog/{post:slug}", [PostController::class, "update"])->can('update', 'post')->name('blog.update');
+    Route::middleware('auth')->group(function () {
 
-    // comment actions
-    Route::post("/blog/{post:slug}/comments", [CommentController::class, "store"])->name('comment.store');
-    Route::patch("/blog/comments/{comment}", [CommentController::class, "update"])->can("update", "comment")->name("comment.update");
-    Route::delete('/blog/comments/{comment}', [CommentController::class, 'destroy'])->can("delete", "comment")->name("comment.delete");
+        Route::get("{user}/update-password", []);
+        Route::patch("{user}/update-password", []);
 
-    // vote
-    Route::post('/vote', [VoteController::class, 'update'])->name("vote.update");
+        Route::get("{user}/settings", []);
+        Route::patch("{user}/settings", []);
+    });
 
 });
+
+
+Route::prefix("blog")->group(function () {
+
+    Route::get("", [PostController::class, "index"])->name('blog.index');
+    Route::get("{post:slug}", [PostController::class, "show"])->name('blog.show');
+
+    Route::middleware('auth')->group(function () {
+
+        Route::get("create", [PostController::class, "create"])->name('blog.create');
+        Route::post("", [PostController::class, "store"])->name('blog.store');
+        Route::get("{post:slug}/edit", [PostController::class, "edit"])->name('blog.edit')->can('update', 'post');
+        Route::patch("{post:slug}", [PostController::class, "update"])->can('update', 'post')->name('blog.update');
+        Route::delete("{post:slug}", [PostController::class, "destroy"])->can('delete', 'post')->name('blog.destroy');
+        Route::post("{post:slug}/comments", [CommentController::class, "store"])->name('comment.store');
+
+        Route::prefix("blog/comments")->group(function () {
+
+            Route::patch("{comment}", [CommentController::class, "update"])->can("update", "comment")->name("comment.update");
+            Route::delete('{comment}', [CommentController::class, 'destroy'])->can("delete", "comment")->name("comment.delete");
+
+        });
+
+        Route::post('/vote', [VoteController::class, 'update'])->name("vote.update");
+    });
+
+});
+
 
 
 require __DIR__ . '/settings.php';

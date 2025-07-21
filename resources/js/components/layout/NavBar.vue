@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import SearchInput from '@/components/layout/SearchInput.vue';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { getInitials } from '@/composables/useInitials';
 import { route } from '@/helpers/route';
 import { NavItem, SharedData } from '@/types';
 import { usePage } from '@inertiajs/vue3';
-import { Bell, Bookmark } from 'lucide-vue-next';
+import { Bell, Bookmark, CircleUserRound, LogOut } from 'lucide-vue-next';
 import { computed } from 'vue';
 
 const links: NavItem[] = [
@@ -34,7 +35,40 @@ const initials = getInitials(auth.value?.user?.name);
             <SearchInput />
             <Bell :size="40" class="rounded-full bg-gray-100 p-3" />
             <Bookmark :size="40" class="rounded-full bg-gray-100 p-3 text-xl" />
-            <span class="flex size-10 items-center justify-center rounded-full bg-gray-100 p-3 text-lg">{{ initials }}</span>
+            <DropdownMenu>
+                <DropdownMenuTrigger>
+                    <span class="flex size-10 items-center justify-center rounded-full bg-gray-100 p-3 text-lg">{{ initials }}</span>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                    <DropDownMenuItem>
+                        <div class="flex items-center py-2 gap-2 mx-2">
+                            <span class="flex size-8 items-center justify-center rounded-full bg-gray-100 px-2 py-2 text-lg">{{ initials }}</span>
+                            <div class="flex flex-col items-start text-xs">
+                                <p class="font-semibold">{{ auth.user.name }}</p>
+                                <p class="font-light">{{ auth.user.email }}</p>
+                            </div>
+                        </div>
+                    </DropDownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropDownMenuItem>
+                        <a
+                            class="flex cursor-pointer items-center gap-2 px-3 py-1 text-sm text-gray-600 transition hover:text-gray-800 hover:underline"
+                        >
+                            <CircleUserRound :size="16" color="" />
+                            Profile
+                        </a>
+                    </DropDownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropDownMenuItem>
+                        <a
+                            class="flex cursor-pointer items-center gap-2 px-3 py-1 text-sm text-gray-600 transition hover:text-gray-800 hover:underline"
+                        >
+                            <LogOut :size="16" />
+                            Logout
+                        </a>
+                    </DropDownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
         </div>
     </nav>
 </template>

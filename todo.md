@@ -10,6 +10,31 @@
 [x] implement basic models (post, user, tag, comment)
 [x] implement seeders
 
+## user profile
+
+- user data (name, image, tag or award, intrests, followers following threads posts counts, description, links, follow/unfollow button, block, dm)
+
+- edit button (user only)
+
+### pages for others
+
+- posts (with count)
+- followers (with count)
+- following (with count)
+- voted posts
+- comments
+- threads
+- awards
+
+### for me
+
+- drafts
+- bookmarks
+- set theme (database, local storage)
+- verify email (add banner to top of home page)
+- change password with verification email
+- delete account
+
 ## UI
 
 [ ] add themes.
@@ -21,10 +46,10 @@
 [x] show all posts
 [x] show single post with comments
 [ ] make featured posts
-[ ] create more functions in the service 
-    [x] search
-    [x] get by tag
-    [ ] featured posts
+[ ] create more functions in the service
+[x] search
+[x] get by tag
+[ ] featured posts
 [x] make post policy for authorization
 [x] create post (authorize logged in users)
 [x] update post (authorize post owner)
@@ -38,8 +63,7 @@
 [x] use slugs for posts instead of numeric IDs
 [x] add time to read
 [x] add update tags to posts
-[ ] add images to posts
-
+[x] add images to posts
 
 ## Post votes
 
@@ -72,7 +96,7 @@
 
 [x] get todo tree (or not)
 [x] get formatter (prettier)
-[x] get cycle quotes extension. 
+[x] get cycle quotes extension.
 
 ## Router
 
@@ -108,7 +132,7 @@
 - add a newsletter with the best articles of the week
 - add an automated weekly article with the best topics of the week
 - add images (inside posts, photo\gif comments, article cover photo ...etc.)
-- add AI features 
+- add AI features
     - summerization.
     - auto generate title
     - auto select tags.
@@ -116,7 +140,7 @@
 - add SSG (if possible, where possible).
     - try to generate static pages periodically
 - add a recommender system (AI) to show articles based on user interactions and subscriptions
-- try to monitize it 
+- try to monitize it
     - subscriptions.
     - paid articles.
     - premium accounts.
@@ -132,7 +156,7 @@
 - allow importing markdown files (in a specific format).
 - add images to users
 - add a toast for actions
-
+- make an admin dashboard
 
 ## questions
 
@@ -144,8 +168,6 @@
 - how to redirect to the route I was on before e.g. logging in?
 
 - how to use generics in php ???????????????
-
-
 
 I am going to make this blog the biggest and the greatest arabic blog around.
 People are going to come here to find what they are looking for.
