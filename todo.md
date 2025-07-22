@@ -12,7 +12,23 @@
 
 ## user profile
 
-- user data (name, image, tag or award, intrests, followers following threads posts counts, description, links, follow/unfollow button, block, dm)
+- user data
+
+    - name
+
+    - displayname
+    - image
+    - followers
+    - following
+    - description,
+    - intrests,
+    - links,
+    - dm
+    - follow/unfollow button,
+
+    - tag or award
+    - threads posts counts,
+    - block,
 
 - edit button (user only)
 

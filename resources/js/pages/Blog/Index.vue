@@ -18,9 +18,7 @@ const hasPrev = posts.current_page !== 1;
 </script>
 
 <template>
-    <div class="mx-auto max-w-2/3">
-        <PostCard v-for="post in posts.data" :key="post.id" :post="post" />
-    </div>
+    <PostCard v-for="post in posts.data" :key="post.id" :post="post" />
 
     <div class="mx-auto my-12 flex w-1/3 justify-between">
         <CustomLink :enabled="hasPrev" :href="posts.prev_page_url || ''">&laquo; Prev</CustomLink>

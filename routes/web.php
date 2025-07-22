@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VoteController;
 use Illuminate\Support\Facades\Route;
 
@@ -13,7 +14,7 @@ Route::inertia('dashboard', "Dashboard")->middleware(['auth', 'verified'])->name
 
 
 Route::prefix("profile")->group(function () {
-    Route::get("{user}", []);
+    Route::get("{user}", [ProfileController::class, "show"])->name('profile.show');
 
     Route::middleware('auth')->group(function () {
 

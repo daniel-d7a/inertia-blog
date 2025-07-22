@@ -8,7 +8,7 @@ import NavBar from '@/components/layout/NavBar.vue';
     <div class="exo-2-normal">
         <Banner />
         <NavBar />
-        <main class="m-8">
+        <main class="m-8 mx-auto max-w-2/3">
             <slot />
         </main>
         <Footer />
