@@ -18,11 +18,12 @@
 
     - displayname
     - image
+    - description,
+    - links,
+
     - followers
     - following
-    - description,
     - intrests,
-    - links,
     - dm
     - follow/unfollow button,
 

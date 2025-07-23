@@ -37,7 +37,7 @@ const initials = getInitials(auth.value?.user?.name);
             <Bookmark :size="40" class="rounded-full bg-gray-100 p-3 text-xl" />
             <DropdownMenu>
                 <DropdownMenuTrigger>
-                    <span class="flex size-10 items-center justify-center rounded-full bg-gray-100 p-3 text-lg">{{ initials }}</span>
+                    <span class="cursor-pointer flex size-10 items-center justify-center rounded-full bg-gray-100 p-3 text-lg">{{ initials }}</span>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                     <DropdownMenuItem>

@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // create 5 tags
+        $tags = Tag::factory(10)->create();
 
         // create a user account
         $eyad = User::factory()->create([
@@ -26,8 +28,6 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
 
-        // create 5 tags
-        $tags = Tag::factory(5)->create();
 
         // create 5 users
         $users = User::factory(5)->create();

@@ -3,14 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
+use App\Models\UserLink;
 use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
-    public function show()
+    public function show(User $user)
     {
+
+        $links = UserLink::where('user_id', auth()->id())->get();
+        $followersCount = auth()->user()->followers()->count();
+        $followingCount = auth()->user()->following()->count();
+        $tags = auth()->user()->interests()->get();
+        $postCounts = auth()->user()->posts()->count();
+        $commentCount = auth()->user()->comments()->count();
+        $voteCount = auth()->user()->votes()->count();
+
         // Logic to show the user's profile
-        return inertia('UserProfile/Index');
+        return inertia('UserProfile/Index', [
+            "responseData" => [
+                "links" => $links,
+                "followersCount" => $followersCount,
+                "followingCount" => $followingCount,
+                "tags" => $tags,
+                "postCounts" => $postCounts,
+                "commentCount" => $commentCount,
+                "voteCount" => $voteCount,
+                "userId" => $user->id,
+            ]
+        ]);
     }
 
     public function updatePassword(Request $request, $user)

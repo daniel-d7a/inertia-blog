@@ -34,11 +34,14 @@ export interface User {
     email_verified_at: string | null;
     created_at: string;
     updated_at: string;
+    bio: string;
+    image_path: string;
+    display_name: string;
 }
 
 export const UserType = {
-    USER: "user",
-    ADMIN: "admin"
-} as const
+    USER: 'user',
+    ADMIN: 'admin',
+} as const;
 
 export type BreadcrumbItemType = BreadcrumbItem;

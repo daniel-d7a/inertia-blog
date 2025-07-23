@@ -19,7 +19,6 @@ return new class extends Migration {
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->enum('type', [UserType::USER->value, UserType::ADMIN->value])->default(UserType::USER->value);
-            // TODO: add profile pic.
             $table->rememberToken();
             $table->timestamps();
         });

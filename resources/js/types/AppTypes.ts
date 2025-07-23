@@ -51,6 +51,11 @@ export interface Tag extends Entity, WithTimestamps {
     name: string;
 }
 
+export interface Link {
+    name: string;
+    link: string;
+}
+
 export interface Post extends Entity, WithTimestamps, WithVotes {
     title: string;
     body: string;
